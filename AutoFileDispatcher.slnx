@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FileDispatcher/FileDispatcher.csproj" />
+  <Project Path="FileDispatcherService/FileDispatcherService.csproj" />
+</Solution>

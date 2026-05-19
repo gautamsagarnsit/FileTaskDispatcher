@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+	
+	<Directories>
+		<Directory Path="C:\Users\gauta\OneDrive\Documents\FileDispatcher">
+			<Events>
+				<Event Type="FileCreated">
+					<Actions>
+						<Action Name="Email">
+							<Config>
+								<Subject> "File Created" </Subject>
+							</Config>
+						</Action>
+					</Actions>
+					<QueueName>FileCreatedQueue</QueueName>					
+				</Event>
+				<Event Type="FileDeleted">
+					<Actions>
+						<Action Name="Email">
+							<Config>
+								<Subject> "File Deleted" </Subject>
+							</Config>
+						</Action>
+					</Actions>
+					<QueueName>FileDeletedQueue</QueueName>
+				</Event>
+			</Events>
+		</Directory>
+	</Directories>
+
+	<Actions>
+		<Action Name = "Email">
+			<Handler> EmailService </Handler>
+			<InboundQueues>
+				<QueueName> FileCreatedQueue </QueueName>
+				<QueueName> FileDeletedQueue </QueueName>
+			</InboundQueues>
+			<Config>
+				<Receiver> receiver_email@gmail.com </Receiver>
+				<Subject> </Subject>
+				<Body> </Body>
+			</Config>
+		</Action>
+	</Actions>
+	
+</Configuration>
