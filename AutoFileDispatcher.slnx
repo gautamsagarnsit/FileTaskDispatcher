@@ -1,4 +1,6 @@
 <Solution>
+  <Project Path="Common/Common.csproj" Id="2a96dacf-8419-4465-9d40-5fad3cbbc212" />
   <Project Path="FileDispatcher/FileDispatcher.csproj" />
+  <Project Path="FileDispatcherConsole/FileDispatcherConsole.csproj" />
   <Project Path="FileDispatcherService/FileDispatcherService.csproj" />
 </Solution>

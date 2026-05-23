@@ -24,26 +24,6 @@
 					</Actions>
 					<QueueName>FileDeletedQueue</QueueName>
 				</Event>
-				<Event Type="FileChanged">
-					<Actions>
-						<Action Name="Email">
-							<Config>
-								<Subject> "File Changed" </Subject>
-							</Config>
-						</Action>
-					</Actions>
-					<QueueName>FileChangedQueue</QueueName>
-				</Event>
-				<Event Type="FileRenamed">
-					<Actions>
-						<Action Name="Email">
-							<Config>
-								<Subject> "File Renamed" </Subject>
-							</Config>
-						</Action>
-					</Actions>
-					<QueueName>FileRenamedQueue</QueueName>
-				</Event>
 			</Events>
 		</Directory>
 	</Directories>
