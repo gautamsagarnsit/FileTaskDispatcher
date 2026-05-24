@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoFileDispatcher.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,11 @@ namespace FileDispatcherConsole
     [Serializable]
     public class EventAction
     {
-        public string eventName;
+        public FileEventAction eventName;
         public Dictionary<string, string> eventConfig;
         public List<string> InBoundQueues;
         public string handlerName;
-        public EventAction(string name)
+        public EventAction(FileEventAction name)
         {
             eventName = name;
             eventConfig = new Dictionary<string, string>();

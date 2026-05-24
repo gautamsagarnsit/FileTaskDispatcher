@@ -1,4 +1,4 @@
-﻿using Common;
+﻿using AutoFileDispatcher.Common;
 using log4net;
 using log4net.Config;
 using System;

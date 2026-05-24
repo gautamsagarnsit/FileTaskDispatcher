@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Common/Common.csproj" Id="2a96dacf-8419-4465-9d40-5fad3cbbc212" />
+  <Project Path="EmailService/EmailService.csproj" Id="3f5a29a6-0924-4670-b30e-dd0f91a173bf" />
   <Project Path="FileDispatcher/FileDispatcher.csproj" />
   <Project Path="FileDispatcherConsole/FileDispatcherConsole.csproj" />
   <Project Path="FileDispatcherService/FileDispatcherService.csproj" />

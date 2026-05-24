@@ -6,9 +6,27 @@
 			<Events>
 				<Event Type="FileCreated">
 					<Actions>
-						<Action Name="Email">
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>								
+							</InboundQueues>
 							<Config>
-								<Subject> "File Created" </Subject>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Created</Subject>
+								<Body> </Body>
+							</Config>
+						</Action>
+
+						<Action Name = "FTP">
+							<Handler> FTPService </Handler>
+							<InboundQueues>
+								<QueueName> FTPServiceQueue </QueueName>								
+							</InboundQueues>
+							<Config>
+								<user> Gautam </user>
+								<Host> 192.168.1.1 </Host>
+								<FTPLocation> /path/to/ftp </FTPLocation>
 							</Config>
 						</Action>
 					</Actions>
@@ -16,18 +34,74 @@
 				</Event>
 				<Event Type="FileDeleted">
 					<Actions>
-						<Action Name="Email">
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>								
+							</InboundQueues>
 							<Config>
-								<Subject> "File Deleted" </Subject>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Deleted</Subject>
+								<Body> </Body>
 							</Config>
 						</Action>
 					</Actions>
 					<QueueName>FileDeletedQueue</QueueName>
 				</Event>
+				<Event Type="FileChanged">
+					<Actions>
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>
+							</InboundQueues>
+							<Config>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Changed </Subject>
+								<Body> </Body>
+							</Config>
+						</Action>
+					</Actions>
+					<QueueName>FileChangedQueue</QueueName>
+				</Event>
+				<Event Type="FileRenamed">
+					<Actions>
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>
+							</InboundQueues>
+							<Config>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Renamed</Subject>
+								<Body> </Body>
+							</Config>
+						</Action>
+
+						<Action Name = "FTP">
+							<Handler> FTPService </Handler>
+							<InboundQueues>
+								<QueueName> FTPServiceQueue </QueueName>
+							</InboundQueues>
+							<Config>
+								<user> Gautam </user>
+								<Host> 192.168.1.1 </Host>
+								<FTPLocation> /path/to/ftp </FTPLocation>
+
+							</Config>
+						</Action>
+					</Actions>
+					<QueueName>FileRenamedQueue</QueueName>
+				</Event>
 			</Events>
 		</Directory>
 	</Directories>
 
+	<Queues>
+		<EmailService> EmailServiceQueue </EmailService>
+		<FTPService> FTPServiceQueue</FTPService>
+	</Queues>
+	
 	<DefaultActionsConfig>
 		<Action Name = "Email">
 			<Handler> EmailService </Handler>

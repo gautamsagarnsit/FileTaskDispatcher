@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace Common
+namespace AutoFileDispatcher.Common
 {
     public class FileLogger
     {
