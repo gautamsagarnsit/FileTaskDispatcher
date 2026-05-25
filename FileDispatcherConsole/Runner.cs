@@ -23,7 +23,7 @@ namespace FileDispatcherConsole
         private readonly ConfigParser _configParser;
         private readonly List<FileSystemWatcher> _watchers;
         private static readonly ILog logger = LogManager.GetLogger(typeof(Runner));
-        private IChannel _channel;
+        private QueueManager _queueManager;
 
 
         public Runner()
@@ -35,59 +35,21 @@ namespace FileDispatcherConsole
                              .FirstOrDefault();
             Console.WriteLine(appender?.File);
             _configParser = new ConfigParser("C:\\Users\\gauta\\source\\repos\\AutoFileDispatcher\\FileDispatcherConsole\\config.xml");
-            _watchers = new List<FileSystemWatcher>();            
+            _watchers = new List<FileSystemWatcher>();
+            _queueManager = new QueueManager();
         }
 
         
-        public void Run()
+        public async void Run()
         {
             // Parse configuration including TagDirectories
             logger.Info("Parsing Configuration...");
             _configParser.ParseConfig();
-            setupQueueConnection();            
+            _queueManager.GetChannel(_configParser.queues);            
             CreateWatchers();  
             Console.WriteLine("Enter to exit...");
             Console.ReadLine();
-        }
-        
-        private async void setupQueueConnection()
-        {
-            var factory = new ConnectionFactory()
-            {
-                HostName = "localhost",
-                UserName = "guest",
-                Password = "guest"
-            };
-            IConnection connection = await factory.CreateConnectionAsync();
-            if(connection.IsOpen)
-            {
-                logger.Info("Connected to RabbitMQ successfully.");
-                _channel = await connection.CreateChannelAsync();
-                CreateQueues();
-            }
-            else
-                {
-                logger.Error("Failed to connect to RabbitMQ.");
-            }
-
-        }
-
-        private async void CreateQueues()
-        {
-            foreach(var queue in _configParser.queues)
-            {
-                if (_channel.IsOpen)
-                {
-                    logger.Info($"Declaring queue {queue}");
-                    await _channel.QueueDeclareAsync(queue: queue.Value, durable: true, exclusive: false, autoDelete: false,
-                                                        arguments: new Dictionary<string, object?> { { "x-queue-type", "quorum" } });
-                }
-                else
-                {
-                    logger.Error($"Cannot declare queue {queue} because channel is not open.");
-                }
-            }            
-        }
+        }       
 
         private void CreateWatchers()
         {
@@ -177,12 +139,12 @@ namespace FileDispatcherConsole
         {
             foreach(var queueName in action.InBoundQueues)
             {
-                if (_channel.IsOpen)
+                if (_queueManager.channel.IsOpen)
                 {
                     var message = JsonConvert.SerializeObject(action);
                     logger.Info("Publishing to Queue " + message);
                     var body = Encoding.UTF8.GetBytes(message);
-                    await _channel.BasicPublishAsync(exchange: string.Empty, routingKey: queueName, body: body);
+                    await _queueManager.channel.BasicPublishAsync(exchange: string.Empty, routingKey: queueName, body: body);
                     logger.Info($"Published message to queue {queueName}");
                 }
                 else

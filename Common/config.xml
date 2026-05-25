@@ -2,6 +2,6 @@
 <Configuration>
 	<Queues>
 		<EmailService> EmailServiceQueue </EmailService>
+		<FTPService> FTPServiceQueue</FTPService>
 	</Queues>
-	
 </Configuration>

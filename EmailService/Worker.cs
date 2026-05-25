@@ -9,7 +9,7 @@ namespace EmailService
         private readonly string _eventSourceName = "FileEmailService";
         private static readonly ILog _logger = LogManager.GetLogger(typeof(Worker));
 
-        public Worker(ILogger<Worker> logger)
+        public Worker()
         {
 
         }
@@ -22,6 +22,8 @@ namespace EmailService
                 _logger.Info("===== Email Service startup initiated =====");
 
                 //Todo: Add logic to check EmailServiceQueue for any new message and invoke handler to process email sending. For now, we will just simulate the service running.
+                var runner = new Runner();
+                runner.Run();
 
                 _logger.Info("Service started successfully.");
                 WriteEventLog(
