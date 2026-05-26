@@ -14,6 +14,7 @@ namespace FileDispatcherConsole
         public Dictionary<string, string> eventConfig;
         public List<string> InBoundQueues;
         public string handlerName;
+        public string filePath;
         public EventAction(FileEventAction name)
         {
             eventName = name;

@@ -26,7 +26,7 @@ namespace AutoFileDispatcher.Common
            logger.Info("QueueManager initialized.");
         }
         
-        public async void GetChannel(Dictionary<string, string> queues)
+        public async Task GetChannel(Dictionary<string, string> queues)
         {
             logger.Info("Getting Connection factory...");
             var factory = new ConnectionFactory()
@@ -42,13 +42,15 @@ namespace AutoFileDispatcher.Common
             {
                 logger.Info("Connected to RabbitMQ successfully.");
                 channel = await connection.CreateChannelAsync();
-                CreateQueues(queues ?? _config.queues);
+                CreateQueues(queues);
             }
             else
             {
                 logger.Error("Failed to connect to RabbitMQ.");
                 throw new Exception("Failed to connect to RabbitMQ");
             }
+            logger.Info("Queue Setup Finished");
+            return;
         }
 
         private async void CreateQueues(Dictionary<string, string> queues)
@@ -67,5 +69,7 @@ namespace AutoFileDispatcher.Common
                 }
             }
         }
+
+
     }
 }

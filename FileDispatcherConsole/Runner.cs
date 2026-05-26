@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -131,6 +132,7 @@ namespace FileDispatcherConsole
             foreach(var action in fileEventType.eventActions)
             {
                 logger.Info("Available Event Action: " + action.eventName);
+                action.filePath = filePath;
                 publishToQueue(action);
             }
         }
@@ -143,7 +145,7 @@ namespace FileDispatcherConsole
                 {
                     var message = JsonConvert.SerializeObject(action);
                     logger.Info("Publishing to Queue " + message);
-                    var body = Encoding.UTF8.GetBytes(message);
+                    var body = Encoding.UTF8.GetBytes(message);                   
                     await _queueManager.channel.BasicPublishAsync(exchange: string.Empty, routingKey: queueName, body: body);
                     logger.Info($"Published message to queue {queueName}");
                 }
