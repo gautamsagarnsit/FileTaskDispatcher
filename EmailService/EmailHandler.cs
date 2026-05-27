@@ -42,9 +42,10 @@ namespace EmailService
                 Text = body
             };
 
+            var stream = File.OpenRead(filePath);
             var attachment = new MimePart("application", "pdf")
-            {
-                Content = new MimeContent(File.OpenRead(filePath)),
+            {               
+                Content = new MimeContent(stream),
                 ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
                 ContentTransferEncoding = ContentEncoding.Base64,
                 FileName = Path.GetFileName(filePath)
@@ -68,6 +69,7 @@ namespace EmailService
                 _logger.Info("Email sent successfully.");
                 client.Disconnect(true);
             }
+            stream.Close();
         }
     }
 }

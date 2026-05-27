@@ -54,8 +54,8 @@ namespace EmailService
                 var message = Encoding.UTF8.GetString(body);
                 _logger.Info($"Received {message}");
                 var doc = JsonDocument.Parse(message);
-
-                if (doc.RootElement.GetProperty("eventName").GetInt32() == 0)
+                _logger.Info($"File Event: {doc.RootElement.GetProperty("eventConfig").GetProperty("Subject").GetString()}");
+                if (doc.RootElement.GetProperty("eventConfig").GetProperty("Subject").GetString() == "File Created")
                 {
                     string filePath = doc.RootElement.GetProperty("filePath").GetString();
                     _emailHandler.Send(filePath, "New File Event", $"{message}");
