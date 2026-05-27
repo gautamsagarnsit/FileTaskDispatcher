@@ -1,20 +1,23 @@
 ﻿using log4net;
 using MailKit.Net.Smtp;
 using MimeKit;
+using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Security.Cryptography;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace EmailService
 {
     public class EmailHandler
     {
-        private IConfigurationRoot _emailConfig;
+        private IConfiguration _emailConfig;
         private static readonly ILog _logger = LogManager.GetLogger(typeof(EmailHandler));
-        public EmailHandler(IConfigurationRoot emailConfig)
+        public EmailHandler(IConfiguration emailConfig)
         {
             _emailConfig = emailConfig;
         }
@@ -23,10 +26,12 @@ namespace EmailService
         {
             _logger.Info($"Sending email with subject: {subject} and attachment: {filePath}");
             var message = new MimeMessage();
-            var senderName = _emailConfig["SMTP:Name"];
-            var sender = _emailConfig["SMTP:user"];
+            var senderName = "Gautam Sagar";
+            var sender = Environment.GetEnvironmentVariable("smtp_user");
             var receiver = sender;
-            var smtpPass = _emailConfig["SMTP:pass"];
+            var smtpPass = Environment.GetEnvironmentVariable("smtp_pass");
+
+            _logger.Info($"Email configuration - Sender: {senderName}, {sender}, SMTP Pass: {smtpPass}");
 
             message.From.Add(new MailboxAddress(senderName, sender));
             message.To.Add(new MailboxAddress("Receiver", receiver));
@@ -58,8 +63,9 @@ namespace EmailService
 
                 // Note: only needed if the SMTP server requires authentication
                 client.Authenticate(sender, smtpPass);
-
+                _logger.Info("Authenticated to SMTP server successfully.");
                 client.Send(message);
+                _logger.Info("Email sent successfully.");
                 client.Disconnect(true);
             }
         }

@@ -6,6 +6,18 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-EmailService-529915fe-20e7-4b12-bcb5-5af826e62d19</UserSecretsId>
   </PropertyGroup>
+	
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update=".env">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="log4net" Version="3.3.1" />
@@ -15,6 +27,7 @@
 	 <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
 	 <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.8" />
 	 <PackageReference Include="MimeKit" Version="4.16.0" />
+	 <PackageReference Include="NuGet.Core" Version="2.14.0" />
 	 <PackageReference Include="RabbitMQ.Client" Version="7.2.1" />
 	  <PackageReference Include="System.Diagnostics.EventLog" Version="10.0.8" />
 	  <PackageReference Include="System.Security.AccessControl" Version="6.0.1" />

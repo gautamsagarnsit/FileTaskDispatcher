@@ -9,10 +9,10 @@ namespace EmailService
         private readonly string _eventSourceName = "FileEmailService";
         private static readonly ILog _logger = LogManager.GetLogger(typeof(Worker));
         private CancellationTokenSource _cts;
-
-        public Worker()
+        private EmailHandler _emailHandler;
+        public Worker(EmailHandler emailHandler)
         {
-
+            _emailHandler = emailHandler;           
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,8 +22,8 @@ namespace EmailService
 
                 _logger.Info("===== Email Service startup initiated =====");
 
-                //Todo: Add logic to check EmailServiceQueue for any new message and invoke handler to process email sending. For now, we will just simulate the service running.
-                var runner = new Runner();
+
+                var runner = new Runner(_emailHandler);
                 _cts = new CancellationTokenSource();
 
                 await runner.Run(_cts.Token);

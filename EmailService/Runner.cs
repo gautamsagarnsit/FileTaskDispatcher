@@ -27,16 +27,13 @@ namespace EmailService
         private Dictionary<string, string> queues;
         private IConfigurationRoot _emailConfig;
         private EmailHandler _emailHandler;
-        public Runner()
+        public Runner(EmailHandler emailHandler)
         {
             _logger.Info("EmailService Runner initialized.");
             queues = new Dictionary<string, string>();
             ParseConfig();
             _queueManager = new QueueManager();
-            _emailConfig = new ConfigurationBuilder()
-                                .AddUserSecrets<Program>()
-                                .Build();
-            _emailHandler = new EmailHandler(_emailConfig);
+            _emailHandler = emailHandler;
         }
 
         public async Task Run(CancellationToken cancellationtoken)

@@ -15,10 +15,20 @@ namespace EmailService
             XmlConfigurator.Configure();
 
             var host = Host.CreateDefaultBuilder(args)
-            .UseWindowsService()
+            .UseWindowsService()            
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                var basePath = AppContext.BaseDirectory;
+                config
+                .SetBasePath(basePath)
+                .AddUserSecrets<Program>();
+            })
             .ConfigureServices((hostContext, services) =>
             {
+                services.AddSingleton(hostContext.Configuration);
                 services.AddHostedService<Worker>();
+                services.AddSingleton<EmailHandler>();
+
             })
             .Build();
 
