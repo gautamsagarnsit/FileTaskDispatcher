@@ -4,25 +4,23 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-FileDispatcherService-1d8dd124-6cb7-4442-a6f9-5c0fd0029204</UserSecretsId>
+    <UserSecretsId>dotnet-UploadService-2a6e7215-12e7-4085-8738-26d5fb662ee1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" Version="1.74.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.74.0.4135" />
     <PackageReference Include="log4net" Version="3.3.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.8" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.3.10" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.8" />
-    <PackageReference Include="RabbitMQ.AMQP.Client" Version="1.1.0" />
-    <PackageReference Include="Serilog" Version="4.3.1" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.2.1" />
     <PackageReference Include="System.Diagnostics.EventLog" Version="10.0.8" />
     <PackageReference Include="System.Security.AccessControl" Version="6.0.1" />
     <PackageReference Include="System.Threading.AccessControl" Version="10.0.8" />
-    <PackageReference Include="TopShelf.ServiceInstaller" Version="4.3.0" />	  
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\FileDispatcher\FileDispatcher.csproj" />
   </ItemGroup>
 </Project>

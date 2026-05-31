@@ -1,24 +1,48 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Configuration>
-	
+
 	<Directories>
-		<Directory Path="C:\Users\gauta\OneDrive\Documents\FileDispatcher">
+		<Directory Path="C:\Users\gauta\Documents\FileDispatcher">
 			<Events>
 				<Event Type="FileCreated">
 					<Actions>
-						<Action Name="Email">
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>
+							</InboundQueues>
 							<Config>
-								<Subject> "File Created" </Subject>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Created</Subject>
+								<Body> </Body>
+							</Config>
+						</Action>
+
+						<Action Name = "FTP">
+							<Handler> FTPService </Handler>
+							<InboundQueues>
+								<QueueName> FTPServiceQueue </QueueName>
+							</InboundQueues>
+							<Config>
+								<user> Gautam </user>
+								<Host> 192.168.1.1 </Host>
+								<FTPLocation> /path/to/ftp </FTPLocation>
 							</Config>
 						</Action>
 					</Actions>
-					<QueueName>FileCreatedQueue</QueueName>					
+					<QueueName>FileCreatedQueue</QueueName>
 				</Event>
 				<Event Type="FileDeleted">
 					<Actions>
-						<Action Name="Email">
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>
+							</InboundQueues>
 							<Config>
-								<Subject> "File Deleted" </Subject>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Deleted</Subject>
+								<Body> </Body>
 							</Config>
 						</Action>
 					</Actions>
@@ -26,9 +50,15 @@
 				</Event>
 				<Event Type="FileChanged">
 					<Actions>
-						<Action Name="Email">
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>
+							</InboundQueues>
 							<Config>
-								<Subject> "File Changed" </Subject>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Changed </Subject>
+								<Body> </Body>
 							</Config>
 						</Action>
 					</Actions>
@@ -36,9 +66,28 @@
 				</Event>
 				<Event Type="FileRenamed">
 					<Actions>
-						<Action Name="Email">
+						<Action Name = "Email">
+							<Handler> EmailService </Handler>
+							<InboundQueues>
+								<QueueName> EmailServiceQueue </QueueName>
+							</InboundQueues>
 							<Config>
-								<Subject> "File Renamed" </Subject>
+								<Receiver> receiver_email@gmail.com </Receiver>
+								<Subject> File Renamed</Subject>
+								<Body> </Body>
+							</Config>
+						</Action>
+
+						<Action Name = "FTP">
+							<Handler> FTPService </Handler>
+							<InboundQueues>
+								<QueueName> FTPServiceQueue </QueueName>
+							</InboundQueues>
+							<Config>
+								<user> Gautam </user>
+								<Host> 192.168.1.1 </Host>
+								<FTPLocation> /path/to/ftp </FTPLocation>
+
 							</Config>
 						</Action>
 					</Actions>
@@ -47,6 +96,11 @@
 			</Events>
 		</Directory>
 	</Directories>
+
+	<Queues>
+		<EmailService> EmailServiceQueue </EmailService>
+		<FTPService> FTPServiceQueue</FTPService>
+	</Queues>
 
 	<DefaultActionsConfig>
 		<Action Name = "Email">
@@ -87,6 +141,6 @@
 			</Config>
 		</Action>
 	</DefaultActionsConfig>
-	
+
 
 </Configuration>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoFileDispatcher.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +11,11 @@ namespace FileDispatcher
     public class EventDirectory
     {
         public string Path;
-        public List<EventType> events;
+        public Dictionary<FileEventType, EventType> fileEventType;
 
         public EventDirectory()
         {
-            events = new List<EventType>();
+            fileEventType = new Dictionary<FileEventType, EventType>();
         }
     }
 }

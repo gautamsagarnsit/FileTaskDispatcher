@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoFileDispatcher.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace FileDispatcher
     [Serializable]
     public class EventType
     {
-        public string FileEventName;
+        public FileEventType FileEventName;
         public string OutboundQueue;
         public List<EventAction> eventActions;
         public EventType()

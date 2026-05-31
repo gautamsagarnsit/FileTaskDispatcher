@@ -2,7 +2,7 @@
 <Configuration>
 	
 	<Directories>
-		<Directory Path="C:\Users\gauta\OneDrive\Documents\FileDispatcher">
+		<Directory Path="C:\Users\gauta\Documents\FileDispatcher">
 			<Events>
 				<Event Type="FileCreated">
 					<Actions>
@@ -18,15 +18,13 @@
 							</Config>
 						</Action>
 
-						<Action Name = "FTP">
-							<Handler> FTPService </Handler>
+						<Action Name = "Upload">
+							<Handler> UploadService </Handler>
 							<InboundQueues>
-								<QueueName> FTPServiceQueue </QueueName>								
+								<QueueName> UploadServiceQueue </QueueName>								
 							</InboundQueues>
 							<Config>
-								<user> Gautam </user>
-								<Host> 192.168.1.1 </Host>
-								<FTPLocation> /path/to/ftp </FTPLocation>
+								<service> GoogleDrive </service>
 							</Config>
 						</Action>
 					</Actions>
@@ -100,6 +98,7 @@
 	<Queues>
 		<EmailService> EmailServiceQueue </EmailService>
 		<FTPService> FTPServiceQueue</FTPService>
+		<QueueName> UploadServiceQueue </QueueName>
 	</Queues>
 	
 	<DefaultActionsConfig>

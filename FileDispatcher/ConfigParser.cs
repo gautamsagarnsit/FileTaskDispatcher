@@ -1,27 +1,34 @@
+using AutoFileDispatcher.Common;
+using log4net;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Xml.Linq;
 
 namespace FileDispatcher
-{ 
+{
     public class ConfigParser
     {
         private readonly string _configPath;
         private XDocument _doc;
-        public Dictionary<string, EventAction> eventActions;
-        public List<EventDirectory> directories;
+        public Dictionary<FileEventAction, EventAction> eventActions;
+        public Dictionary<string, string> queues;
+        public Dictionary<string, EventDirectory> directories;
+        private static readonly ILog logger = LogManager.GetLogger(typeof(ConfigParser));
 
         public ConfigParser(string configPath = "config.xml")
         {
             _configPath = configPath;
-            eventActions = new Dictionary<string, EventAction>();
-            directories = new List<EventDirectory>();
+            eventActions = new Dictionary<FileEventAction, EventAction>();
+            queues = new Dictionary<string, string>();
+            directories = new Dictionary<string, EventDirectory>();
         }
         public void ParseConfig()
         {
             _doc = XDocument.Load(_configPath);
-            ReadDefaultEventActionsConfig();
+            ReadQueuesConfig();
             ReadDirectoriesConfig();
         }
 
@@ -30,7 +37,7 @@ namespace FileDispatcher
             var eventActionsElem = _doc.Descendants("DefaultActionsConfig").Descendants("Action");
             foreach (var eventActionElem in eventActionsElem)
             {
-                EventAction action = createEventAction(eventActionElem);           
+                EventAction action = createEventAction(eventActionElem);
                 eventActions[action.eventName] = action;
             }
         }
@@ -38,13 +45,13 @@ namespace FileDispatcher
         public void ReadDirectoriesConfig()
         {
             var dirElems = _doc.Descendants("Directories").Descendants("Directory");
-            foreach(var dirElem in dirElems)
+            foreach (var dirElem in dirElems)
             {
                 EventDirectory dir = new EventDirectory();
                 dir.Path = dirElem.Attribute("Path").Value;
                 var eventsElems = dirElem.Element("Events");
                 ReadEventTypesConfig(dir, eventsElems);
-                directories.Add(dir);
+                directories[dir.Path] = dir;
             }
         }
 
@@ -53,34 +60,29 @@ namespace FileDispatcher
             var eventTypesElem = eventsElem.Descendants("Event");
             foreach (var eventElem in eventTypesElem)
             {
-                dir.events.Add(createEventType(eventElem));
-            }          
+                EventType fileEvent = createEventType(eventElem);
+                dir.fileEventType[fileEvent.FileEventName] = fileEvent;
+            }
         }
         private EventType createEventType(XElement eventElem)
         {
             EventType eventType = new EventType();
-            eventType.FileEventName = eventElem.Attribute("Type").Value;
+            Enum.TryParse(eventElem.Attribute("Type").Value, out FileEventType eventTypeName);
+            eventType.FileEventName = eventTypeName;
             eventType.OutboundQueue = eventElem.Element("QueueName").Value;
             var eventActionsElem = eventElem.Descendants("Actions").Descendants("Action");
-            foreach(var eventActionElem in eventActionsElem)
+            logger.Info($"Creating Event Actions for the File Event Type: {eventTypeName}");
+            foreach (var eventActionElem in eventActionsElem)
             {
-                EventAction action = eventActions[eventActionElem.Attribute("Name").Value];
-                eventType.eventActions.Add(updateEventAction(action, eventActionElem));
+                eventType.eventActions.Add(createEventAction(eventActionElem));
             }
             return eventType;
         }
-        private EventAction updateEventAction(EventAction action, XElement eventActionElem)
-        {        
-            var ConfigElem = eventActionElem.Descendants("Config");
-            foreach (var key in ConfigElem)
-            {
-                action.updateConfig(key.Name.LocalName, key.Value);
-            }
-            return action;
-        }
+
         private EventAction createEventAction(XElement eventActionElem)
         {
-            EventAction action = new EventAction(eventActionElem.Attribute("Name").Value.Trim());
+            Enum.TryParse(eventActionElem.Attribute("Name").Value, out FileEventAction eventActionName);
+            EventAction action = new EventAction(eventActionName);
             var InboundQueuesElem = eventActionElem.Descendants("InboundQueues");
             foreach (var queue in InboundQueuesElem.Descendants("QueueName"))
             {
@@ -92,9 +94,18 @@ namespace FileDispatcher
                 action.updateConfig(key.Name.LocalName, key.Value.Trim());
             }
             action.handlerName = eventActionElem.Descendants("Handler").FirstOrDefault().Value.Trim();
+            logger.Info($"Created Action: {JsonConvert.SerializeObject(action)}");
             return action;
         }
 
+        private void ReadQueuesConfig()
+        {
+            var queueElems = _doc.Descendants("Queues").Elements();
+            foreach (var key in queueElems)
+            {
+                queues[key.Name.LocalName] = key.Value.Trim();
+            }
+        }
 
     }
 }
