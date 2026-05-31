@@ -4,4 +4,5 @@
   <Project Path="FileDispatcher/FileDispatcher.csproj" />
   <Project Path="FileDispatcherConsole/FileDispatcherConsole.csproj" />
   <Project Path="FileDispatcherService/FileDispatcherService.csproj" />
+  <Project Path="UploadService/UploadService.csproj" Id="7459332b-820a-41cc-a6d9-0efbc118ba5b" />
 </Solution>
