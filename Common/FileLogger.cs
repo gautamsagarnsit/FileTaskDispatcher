@@ -11,7 +11,7 @@ namespace AutoFileDispatcher.Common
         private const int MaxRetries = 3;
         private const int RetryDelayMs = 100;
 
-        public FileLogger(string logFilePath = @"C:\Users\gauta\source\repos\AutoFileDispatcher\FileDispatcherConsole\Logs\FileDispatcher.log")
+        public FileLogger(string logFilePath = @".\Logs\FileDispatcher.log")
         {
             _logFilePath = logFilePath;
 

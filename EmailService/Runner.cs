@@ -23,7 +23,7 @@ namespace EmailService
         private QueueManager _queueManager;
         private readonly string _handlerName = "EmailService" ;
         private XDocument _doc;
-        private readonly string _configPath = "C:\\Users\\gauta\\source\\repos\\AutoFileDispatcher\\EmailService\\config.xml";
+        private readonly string _configPath = ".\\config.xml";
         private Dictionary<string, string> queues;
         private IConfigurationRoot _emailConfig;
         private EmailHandler _emailHandler;

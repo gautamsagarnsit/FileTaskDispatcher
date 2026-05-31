@@ -23,10 +23,11 @@ namespace UploadService
         {
             _uploadConfig = uploadConfig;
             _logger.Info("Setting up Upload Handler, Getting Credential using FileStream");
+            var appDataDir = Environment.GetEnvironmentVariable("APPDATA");
             UserCredential credential;
             // Load client secrets.
             using (var stream =
-                   new FileStream(@"C:\Users\gauta\AppData\Roaming\gcloud\cred.json", FileMode.Open, FileAccess.Read))
+                   new FileStream($"{appDataDir}\\gcloud\\cred.json", FileMode.Open, FileAccess.Read))
             {
                 /* The file token.json stores the user's access and refresh tokens, and is created
                  automatically when the authorization flow completes for the first time. */

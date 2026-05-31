@@ -19,7 +19,7 @@ namespace UploadService
         private QueueManager _queueManager;
         private readonly string _handlerName = "UploadService";
         private XDocument _doc;
-        private readonly string _configPath = "C:\\Users\\gauta\\source\\repos\\AutoFileDispatcher\\UploadService\\config.xml";
+        private readonly string _configPath = ".\\config.xml";
         private Dictionary<string, string> queues;
         private IConfigurationRoot _driveConfig;
         private UploadHandler _uploadHandler;

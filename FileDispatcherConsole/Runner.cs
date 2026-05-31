@@ -35,7 +35,7 @@ namespace FileDispatcherConsole
                              .OfType<FileAppender>()
                              .FirstOrDefault();
             Console.WriteLine(appender?.File);
-            _configParser = new ConfigParser("C:\\Users\\gauta\\source\\repos\\AutoFileDispatcher\\FileDispatcherConsole\\config.xml");
+            _configParser = new ConfigParser("..\\..\\..\\config.xml");
             _watchers = new List<FileSystemWatcher>();
             _queueManager = new QueueManager();
         }

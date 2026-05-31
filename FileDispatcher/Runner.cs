@@ -23,8 +23,8 @@ namespace FileDispatcher
         {
             XmlConfigurator.Configure();
             logger.Info("Runner initialized.");
-            logger.Info("Config File Location: \"AutoFileDispatcher\\\\FileDispatcher\\\\config.xml\"");
-            _configParser = new ConfigParser("C:\\Users\\gauta\\source\\repos\\AutoFileDispatcher\\FileDispatcher\\config.xml");
+            logger.Info("Config File Location: \"AutoFileDispatcher\\FileDispatcher\\config.xml\"");
+            _configParser = new ConfigParser("..\\FileDispatcher\\config.xml");
             _watchers = new List<FileSystemWatcher>();
             SystemEvents.PowerModeChanged += OnPowerModeChanged;
             _queueManager = new QueueManager();
